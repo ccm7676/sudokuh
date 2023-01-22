@@ -1,13 +1,14 @@
 import generate
+import levels
 
 def main():
-    works = False
-    count = 0
-    while works == False:
-        works = generate.generate()
-        count += 1
-        print(count)
-    print(count)
+    #run generate function until it generates a functioning sudoku puzzle
+    puzzle = False
+    while puzzle == False:
+        puzzle = generate.generate()
+
+    levels.easy(puzzle)
+
 
 
 if __name__ == "__main__":

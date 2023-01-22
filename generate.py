@@ -30,7 +30,7 @@ def show(sodoku):
 
 
 #get all values in 3x3 box for specific coordinate
-def get_box(y,x):
+def get_box(y,x,puzzle):
     xbox = 0
     ybox = 0
 
@@ -57,7 +57,7 @@ def get_box(y,x):
     return result
 
 #check for all possible number for one box
-def is_possible(y,x):
+def is_possible(y,x,puzzle):
 
     #list that will be returned
     possible = [1,2,3,4,5,6,7,8,9]
@@ -78,7 +78,7 @@ def is_possible(y,x):
             possible.remove(num2)
     
     #loops through all values in current 3x3
-    for box in get_box(y,x):
+    for box in get_box(y,x,puzzle):
 
         if box != -1 and box in possible:
             possible.remove(box)
@@ -99,14 +99,13 @@ def generate():
           [-1,-1,-1,-1,-1,-1,-1,-1,-1],
           [-1,-1,-1,-1,-1,-1,-1,-1,-1]]
 
-
+    #loops through rows and collumns of puzzle and run the is_possible function on each square
     for i in range(len(puzzle)):
         for j in range(len(puzzle[i])):
             try:
-                puzzle[i][j] = random.choice(is_possible(i,j))
+                puzzle[i][j] = random.choice(is_possible(i,j,puzzle))
             except:
                 return False
-    show(puzzle)
-    return True
+    return puzzle
 
 
