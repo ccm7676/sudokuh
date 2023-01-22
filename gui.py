@@ -18,6 +18,10 @@ playbtnrect = playbtn.get_rect()
 settingsbtn = pygame.image.load("settingsbtn.png")
 settingsbtnrect = settingsbtn.get_rect()
 
+board = pygame.image.load("board.png")
+boardrect = board.get_rect()
+
+
 
 namerect.x = 178
 namerect.y = 75
@@ -29,17 +33,31 @@ settingsbtnrect.x = 384
 settingsbtnrect.y = 400
     
 
-while True:
+inmenu = True
+
+while inmenu == True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: quit()
 
     mouse_pressed = pygame.mouse.get_pressed()
 
     if mouse_pressed[0] and playbtnrect.collidepoint(pygame.mouse.get_pos()):
-        print("PLAY!")
+        inmenu = False
 
     screen.fill(bg)
     screen.blit(name,namerect)
     screen.blit(playbtn, playbtnrect)
     screen.blit(settingsbtn, settingsbtnrect)
     pygame.display.flip()
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: quit()
+
+    boardrect.y = 70
+    boardrect.x = 50
+
+    screen.fill(bg)
+    screen.blit(board, boardrect)
+    pygame.display.flip()
+
