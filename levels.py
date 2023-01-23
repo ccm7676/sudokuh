@@ -11,6 +11,6 @@ def easy(puzzle):
                     puzzle[i][j] = -1
                 else:
                     puzzle[i][j] = curr_box
-    generate.show(puzzle)
+    return puzzle
 
 

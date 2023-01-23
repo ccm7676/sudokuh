@@ -1,13 +1,22 @@
 import generate
 import levels
+import menu
+import gameui
 
 def main():
-    #run generate function until it generates a functioning sudoku puzzle
-    puzzle = False
-    while puzzle == False:
-        puzzle = generate.generate()
+    if menu.show() == "play":
+        play();
+    elif menu.show() == "settings":
+        print("settings")
 
-    levels.easy(puzzle)
+def play():
+    #run generate function until it generates a functioning sudoku puzzle
+    solution = False
+    while solution == False:
+        solution = generate.generate()
+
+    puzzle = levels.easy(solution)
+    gameui.show(puzzle,solution)
 
 
 
