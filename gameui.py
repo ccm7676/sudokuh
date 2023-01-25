@@ -1,4 +1,6 @@
 import pygame
+import time
+
 pygame.init()
 size = width, height = 1000, 600
 bg = 22,22,22
@@ -32,6 +34,12 @@ selected_y = 0
 
 
 def display_puzzle(puzzle):
+    global texts
+    global textrects
+
+    texts = []
+    textrects = []
+
     offset_y = 100
     offset_x = 80
 
@@ -112,14 +120,43 @@ def text_blit():
     for i in range(len(texts)):
         screen.blit(texts[i],textrects[i])
 
-
+def get_kbinput(puzzle,original):
+    keys_down = pygame.key.get_pressed()
+        
+    if original[selected_y][selected_x] == -1:
+             
+        if keys_down[pygame.K_1]:
+            puzzle[selected_y][selected_x] =1
+        elif keys_down[pygame.K_2]:
+            puzzle[selected_y][selected_x] =2
+        elif keys_down[pygame.K_3]:
+            puzzle[selected_y][selected_x] =3
+        elif keys_down[pygame.K_4]:
+            puzzle[selected_y][selected_x] =4
+        elif keys_down[pygame.K_5]:
+            puzzle[selected_y][selected_x] =5
+        elif keys_down[pygame.K_6]:
+            puzzle[selected_y][selected_x] =6
+        elif keys_down[pygame.K_7]:
+            puzzle[selected_y][selected_x] =7
+        elif keys_down[pygame.K_8]:
+            puzzle[selected_y][selected_x] =8
+        elif keys_down[pygame.K_9]:
+            puzzle[selected_y][selected_x] =9
+    return puzzle
+         
 
 def show(puzzle, solution):
     original = puzzle
     puzzle = puzzle
-    
+    a = 0
+
+    print(time.time())
     while True:
+        
         display_puzzle(puzzle)
+        print(a)
+        a+= 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT: quit()
         
@@ -130,29 +167,10 @@ def show(puzzle, solution):
         
         if mouse_pressed == True:
            set_lines(distance_x,distance_y)
-
-        keys_down = pygame.key.get_pressed()
-
-        if puzzle[selected_x][selected_y] == -1 or puzzle[selected_y][selected_x] != original[selected_y][selected_x]:
         
-            if keys_down[pygame.K_1]:
-                puzzle[selected_y][selected_x] =1
-            elif keys_down[pygame.K_2]:
-                puzzle[selected_y][selected_x] =2
-            elif keys_down[pygame.K_3]:
-                puzzle[selected_y][selected_x] =3
-            elif keys_down[pygame.K_4]:
-                puzzle[selected_y][selected_x] =4
-            elif keys_down[pygame.K_5]:
-                puzzle[selected_y][selected_x] =5
-            elif keys_down[pygame.K_6]:
-                puzzle[selected_y][selected_x] =6
-            elif keys_down[pygame.K_7]:
-                puzzle[selected_y][selected_x] =7
-            elif keys_down[pygame.K_8]:
-                puzzle[selected_y][selected_x] =8
-            elif keys_down[pygame.K_9]:
-                puzzle[selected_y][selected_x] =9
+
+        puzzle = get_kbinput(puzzle,original)
+
         screen.fill(bg)
         screen.blit(board, boardrect)
         screen.blit(vertical,verticalrect)
