@@ -11,12 +11,15 @@ def main():
 
 def play():
     #run generate function until it generates a functioning sudoku puzzle
-    solution = False
-    while solution == False:
+    solution = 0
+    while solution == 0:
         solution = generate.generate()
-
+    
+    solution2 = str(solution)
+    print(solution2)
     puzzle = levels.easy(solution)
-    gameui.show(puzzle,solution)
+    print(solution2)
+    gameui.show(puzzle,list(solution2))
 
 
 

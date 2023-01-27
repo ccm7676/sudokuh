@@ -17,6 +17,42 @@ horizontalrect = horizontal.get_rect()
 vertical = pygame.image.load("vertical.png")
 verticalrect = vertical.get_rect()
 
+btns = [pygame.image.load("1.png"),pygame.image.load("2.png"),pygame.image.load("3.png"),pygame.image.load("4.png"),pygame.image.load("5.png"),pygame.image.load("6.png"),pygame.image.load("7.png"),pygame.image.load("8.png"),pygame.image.load("9.png")]
+
+btnrects = []
+
+for i in range(len(btns)):
+    btnrects.append(btns[i].get_rect())
+
+btnrects[0].x = 635
+btnrects[0].y = 220
+
+btnrects[1].x = 745
+btnrects[1].y = 220
+
+btnrects[2].x = 853
+btnrects[2].y = 220
+
+btnrects[3].x = 635
+btnrects[3].y = 327
+
+btnrects[4].x = 745
+btnrects[4].y = 327
+
+btnrects[5].x = 853
+btnrects[5].y = 327
+
+btnrects[6].x = 635
+btnrects[6].y = 435
+
+btnrects[7].x = 745
+btnrects[7].y = 435
+
+btnrects[8].x = 853
+btnrects[8].y = 435
+
+
+
 verticalrect.x = 55
 verticalrect.y = 75
 
@@ -31,6 +67,11 @@ textrects = []
 
 selected_x = 0
 selected_y = 0
+
+
+def btn_blit(screen):
+    for i in range(len(btns)):
+        screen.blit(btns[i],btnrects[i])
 
 
 def display_puzzle(puzzle):
@@ -114,17 +155,23 @@ def set_lines(distance_x,distance_y):
         horizontalrect.y = 483     
         selected_y = 8
 
+def get_btninput(puzzle,mouse_pressed,mouse_pos):
+    if puzzle[selected_y][selected_x] == -1:
+        for i in range(len(btns)):
+            if btnrects[i].collidepoint(mouse_pos) and mouse_pressed:
+                puzzle[selected_y][selected_x] = i + 1
 
+    return puzzle
 
 def text_blit():
     for i in range(len(texts)):
         screen.blit(texts[i],textrects[i])
 
-def get_kbinput(puzzle,original):
+def get_kbinput(puzzle):
     keys_down = pygame.key.get_pressed()
         
-    if original[selected_y][selected_x] == -1:
-             
+    if puzzle[selected_y][selected_x] == -1:
+         
         if keys_down[pygame.K_1]:
             puzzle[selected_y][selected_x] =1
         elif keys_down[pygame.K_2]:
@@ -147,32 +194,32 @@ def get_kbinput(puzzle,original):
          
 
 def show(puzzle, solution):
-    original = puzzle
-    puzzle = puzzle
-    a = 0
-
-    print(time.time())
+    
     while True:
         
+        
         display_puzzle(puzzle)
-        print(a)
-        a+= 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT: quit()
         
         mouse_pressed = pygame.mouse.get_pressed()[0]
-
-        distance_x = pygame.mouse.get_pos()[0] - 55;
-        distance_y = pygame.mouse.get_pos()[1] - 75;
+        mouse_pos = pygame.mouse.get_pos()
+        distance_x = mouse_pos[0] - 55;
+        distance_y = mouse_pos[1] - 75;
         
-        if mouse_pressed == True:
+        if mouse_pressed == True and boardrect.collidepoint(pygame.mouse.get_pos()):
            set_lines(distance_x,distance_y)
         
+        puzzle = get_kbinput(puzzle)
+        puzzle = get_btninput(puzzle,mouse_pressed,mouse_pos) 
 
-        puzzle = get_kbinput(puzzle,original)
+        
+        if puzzle[selected_y][selected_x] != -1 and puzzle[selected_y][selected_x] != solution[selected_y][selected_x]:
+            print("loose")
 
         screen.fill(bg)
         screen.blit(board, boardrect)
+        btn_blit(screen)
         screen.blit(vertical,verticalrect)
         screen.blit(horizontal,horizontalrect)
         text_blit()
