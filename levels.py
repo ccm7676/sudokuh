@@ -1,5 +1,7 @@
 import generate
 import random
+import pygame
+pygame.init()
 
 def easy(fullpuzzle):
     puzzle = fullpuzzle
